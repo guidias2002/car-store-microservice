@@ -24,7 +24,8 @@ public class CarPostServiceImpl implements CarPostService {
 
     @Override
     public void newPostDetails(CarPostDTO carPostDTO) {
-
+        CarPostEntity carPostEntity = mapCarDtoToEntity(carPostDTO);
+        carPostRepository.save(carPostEntity);
     }
 
     @Override
@@ -75,8 +76,8 @@ public class CarPostServiceImpl implements CarPostService {
         CarPostEntity carPostEntity = new CarPostEntity();
 
         ownerPostRepository.findById(carPostDTO.getOwnerId()).ifPresentOrElse(item -> {
-            carPostEntity.setOwnerPost(item.getOwnerPost());
-            carPostEntity.setContact(item.getContact());
+            carPostEntity.setOwnerPost(item);
+            carPostEntity.setContact(item.getContactNumber());
         }, ()-> {
             throw new RuntimeException();
         });
